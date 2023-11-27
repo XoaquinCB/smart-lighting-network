@@ -1,0 +1,7 @@
+SOURCE_FILES = \
+	source/application/*.c \
+	source/network_stack/app/*.c \
+	source/network_stack/dll/*.c \
+	source/network_stack/net/*.c \
+	source/network_stack/phy/*.c \
+	source/network_stack/tra/*.c
