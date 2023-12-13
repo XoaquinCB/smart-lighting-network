@@ -1,3 +1,24 @@
 #pragma once
 
-// Data-link layer API...
+#include <stdint.h>
+
+// typedef uint8_t BYTE;
+typedef void (*dll_callback)(uint8_t sender_address, uint8_t *data, uint8_t length);
+// Defines the type dll_callback, which is a pointer to a function with these parameters, that returns void
+
+typedef enum {
+    DLL_TRANSMISSION_SUCCESS,
+    DLL_NODE_UNREACHABLE,
+    DLL_PACKET_TOO_BIG,
+} dll_send_response;
+
+//PUBLIC FUNCTIONS
+// Returns a pointer to the starting memory address to put packet data into
+uint8_t *dll_create_data_buffer(uint8_t net_packet_length);
+
+// Sends data in the packet buffer to a given address (or broadcast for address 0xFF)
+dll_send_response dll_send_packet(uint8_t destination_address, uint8_t packet_length);
+
+// Sets the NET layer function to be called when a frame is received
+// Pass a pointer to the function that should be called
+void dll_set_callback(dll_callback callback);
