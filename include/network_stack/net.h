@@ -9,14 +9,6 @@
 typedef uint8_t net_address;
 
 /**
- * The type of checksum generated on a network packet.
- */
-typedef enum {
-    NET_CHECKSUM_NONE = 0b00,
-    NET_CHECKSUM_EVEN_PARITY = 0b01,
-} net_checksum_type;
-
-/**
  * @brief A callback function pointer for handling a received network data packet.
  * @param source: The source address that the packet came from.
  * @param payload: A pointer to the first byte in the packet's payload. Note that this pointer is only valid until the
@@ -29,11 +21,8 @@ typedef void (*net_receive_callback)(net_address source, uint8_t *payload, uint8
 /**
  * @brief Initialises the network layer. Must be called once at the start of the program before calling any other
  *        'net_()' functions.
- * @param own_address: The network address that this device should use. This should be picked carefully to avoid
- *                     multiple devices on the same network from having the same address.
- * @param checksum_type: The type of checksum to generate on all outgoing packets.
  */
-void net_initialise(net_address own_address, net_checksum_type checksum_type);
+void net_initialise();
 
 /**
  * @brief Updates the network layer logic. This should be called periodically.
