@@ -3,8 +3,6 @@
 #include <stdint.h>
 
 void test_checksum(uint8_t *data, uint8_t data_length, net_checksum_type checksum_type, uint16_t expected_checksum);
-void print_hex_8(uint8_t value);
-void print_hex_16(uint16_t value);
 void print_hex_array(const uint8_t *data, uint8_t length);
 
 int main() {
@@ -92,30 +90,15 @@ void test_checksum(uint8_t *data, uint8_t data_length, net_checksum_type checksu
 
     // Print the expected and calcualted checksums:
     uart_put_string("\n\r  Expected checksum: ");
-    print_hex_16(expected_checksum);
+    uart_print_hex_16(expected_checksum);
     uart_put_string("\n\r  Calculated checksum: ");
-    print_hex_16(calculated_checksum);
+    uart_print_hex_16(calculated_checksum);
     uart_put_string("\n\r");
-}
-
-void print_hex_8(uint8_t value) {
-    uint8_t high_nibble = (value & 0xF0) >> 4;
-    uint8_t low_nibble = value & 0x0F;
-    char high_nibble_char = (high_nibble < 10) ? high_nibble + '0' : high_nibble - 10 + 'A';
-    char low_nibble_char = (low_nibble < 10) ? low_nibble + '0' : low_nibble - 10 + 'A';
-    uart_put_byte(high_nibble_char);
-    uart_put_byte(low_nibble_char);
-}
-
-void print_hex_16(uint16_t value) {
-    print_hex_8((value & 0xFF00) >> 8);
-    uart_put_byte(' ');
-    print_hex_8((value & 0x00FF));
 }
 
 void print_hex_array(const uint8_t *data, uint8_t length) {
     for (uint8_t i = 0; i != length; i++) {
-        print_hex_8(data[i]);
+        uart_print_hex_8(data[i]);
         uart_put_byte(' ');
     }
 }

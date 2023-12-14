@@ -45,3 +45,18 @@ int uart_get_byte_nonblocking() {
 		return -1;
 	}
 }
+
+void uart_print_hex_8(uint8_t value) {
+    uint8_t high_nibble = (value & 0xF0) >> 4;
+    uint8_t low_nibble = value & 0x0F;
+    char high_nibble_char = (high_nibble < 10) ? high_nibble + '0' : high_nibble - 10 + 'A';
+    char low_nibble_char = (low_nibble < 10) ? low_nibble + '0' : low_nibble - 10 + 'A';
+    uart_put_byte(high_nibble_char);
+    uart_put_byte(low_nibble_char);
+}
+
+void uart_print_hex_16(uint16_t value) {
+    uart_print_hex_8((value & 0xFF00) >> 8);
+    uart_put_byte('-');
+    uart_print_hex_8((value & 0x00FF));
+}
