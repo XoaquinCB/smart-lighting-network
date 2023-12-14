@@ -14,6 +14,7 @@ typedef enum {
 
 //PUBLIC FUNCTIONS
 // Returns a pointer to the starting memory address to put packet data into
+// If requested size if too big (>128), returns NULL
 uint8_t *dll_create_data_buffer(uint8_t net_packet_length);
 
 // Sends data in the packet buffer to a given address (or broadcast for address 0xFF)
