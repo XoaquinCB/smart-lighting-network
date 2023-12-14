@@ -1,0 +1,4 @@
+SOURCE_FILES := \
+    source/network_stack/phy/tests/phy_test.c \
+    source/network_stack/phy/tests/uart.c \
+    source/network_stack/phy/phy.c \
