@@ -23,3 +23,6 @@ dll_send_response dll_send_packet(uint8_t destination_address, uint8_t packet_le
 // Sets the NET layer function to be called when a frame is received
 // Pass a pointer to the function that should be called
 void dll_set_callback(dll_callback callback);
+
+// Update function to be repeatedly
+void dll_update();

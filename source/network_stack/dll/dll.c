@@ -282,6 +282,10 @@ void dll_check_for_transmission() {
     }
 }
 
+void dll_update() {
+    dll_check_for_transmission();
+}
+
 // To be called once data has been received and placed into frame_buffer_rx
 void receive_frame(uint8_t length) {
     //put_str("\n\n----------------STARTING FRAME RECEIVING PROCESS---------------");
