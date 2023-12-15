@@ -1,4 +1,4 @@
-#include "dll_private.h"
+#include "../dll_private.h"
 #include "network_stack/phy.h"
 #include "uart.h"
 #include <avr/interrupt.h>
@@ -33,8 +33,8 @@ int main(void) {
     //print_buffer(packet_ptr, packet_size);
 
     dll_send_response result = dll_send_packet(dest_address, packet_size);
-    //put_str("\n\nFunction returned with result: ");
-    //print_int(result);
+    put_str("\n\nFunction returned with result: ");
+    print_int(result);
 
     while(1) {
         dll_check_for_transmission();

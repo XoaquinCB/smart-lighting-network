@@ -2,7 +2,7 @@
 // Team A1 DLL Implementation
 // DLL/PHY Protocol v1.1 Implemented
 
-#include "dll_private.h"
+#include "../dll_private.h"
 #include "uart.h"
 #include "network_stack/phy.h"
 #include <stdbool.h>
@@ -220,7 +220,7 @@ uint8_t establish_connection(uint8_t address) {
     put_str("\nTransmitting control frame: RTC");
     transmit_frame(control_frame_stuffed_length);
 
-    uint8_t length;
+    //uint8_t length;
 
     put_str("\nWaiting for CTC...");
     while(1) { 
