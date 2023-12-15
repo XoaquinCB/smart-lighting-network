@@ -54,24 +54,29 @@ bool phy_transmit_frame(const uint8_t *data, uint8_t length) {
 }
 
 uint8_t phy_receive_frame(uint8_t *output_buffer, uint8_t max_length) {
-    // Disable TWI interrupt:
-    TWCR &= ~(1 << TWIE);
 
     uint8_t copied_length;
+    cli();
 
     if (rx_complete) {
+        // Disable TWI interrupt:
+        TWCR &= ~(1 << TWIE);
+        sei();
+
         rx_complete = false;
         uint8_t count = (rx_length < max_length) ? rx_length : max_length;
         if (output_buffer != NULL) {
             memcpy(output_buffer, rx_buffer, count);
         }
+
+        // Re-enable TWI interrupt:
+        TWCR |= (1 << TWIE);
+
         return count;
     } else {
         copied_length = 0;
     }
-
-    // Re-enable TWI interrupt:
-    TWCR |= (1 << TWIE);
+    sei();
 
     return copied_length;
 }
@@ -137,6 +142,7 @@ ISR(TWI_vect) {
         case 0x70: {
             // Reset RX length:
             rx_length = 0;
+            rx_complete = false;
 
             // Clear interrupt flag:
             TWCR |= (1 << TWINT);
