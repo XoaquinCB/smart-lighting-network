@@ -1,0 +1,5 @@
+SOURCE_FILES := \
+    source/network_stack/dll/tests/main.c \
+    source/network_stack/dll/dll.c \
+    source/network_stack/dll/tests/uart.c \
+    source/network_stack/phy/*.c
