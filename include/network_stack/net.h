@@ -4,9 +4,14 @@
 #include <stdint.h>
 
 /**
- * A network address. Can be any value between 0-255 (inclusive).
+ * A network address. Can be any integer between 0 and NET_MAX_ADDRESS (inclusive).
  */
 typedef uint8_t net_address;
+
+/**
+ * The maximum allowed network address.
+ */
+#define NET_MAX_ADDRESS ((net_address) 15)
 
 /**
  * @brief A callback function pointer for handling a received network data packet.
@@ -30,13 +35,13 @@ void net_initialise();
 void net_update();
 
 /**
- * @brief Returns this device's network address, as set by the 'net_initialise()' function.
+ * @brief Returns this device's statically assigned network address.
  * @returns The network address.
  */
 net_address net_get_own_address();
 
 /**
- * @brief Returns whether a given device is  known to be connected to the network.
+ * @brief Returns whether a given device is known to be connected to the network.
  * @param address: The device's network address.
  * @returns 'true' if the device is online or 'false' otherwise.
  */
@@ -49,32 +54,21 @@ bool net_is_device_online(net_address address);
 void net_set_receive_callback(net_receive_callback callback);
 
 /**
- * @brief Allocates memory for a data buffer inside a network packet. Any data can be placed in the returned buffer, and
- *        it can be sent with 'net_send_data_buffer()'. If after creating a buffer, it no longer needs to be sent, it
- *        must instead be discarded with 'net_discard_data_buffer()' to free up the memory.
- * @param length: How long to make the buffer, in bytes. Buffers with zero length or longer than 121 bytes will always
- *                fail to be allocated.
- * @returns A pointer to the allocated buffer, or 'NULL' if it couldn't be allocated. If allocation fails, it should be
- *          tried again later when memory may have become available.
+ * @brief Returns a buffer which is used for writing data packets. The size of the buffer can be retrieved with
+ *        'net_get_data_buffer_size()'.
+ * @returns A pointer to the first byte in the buffer.
  */
-uint8_t *net_create_data_buffer(uint8_t length);
+uint8_t *net_get_data_buffer();
 
 /**
- * @brief Sends out a data buffer to the specified network address and then discards the buffer.
- * @param buffer: The buffer to send. This must be a buffer that was allocated with 'net_create_data_buffer()'; using a
- *                buffer from anywhere else will result in undefined behaviour. Once sent, the buffer is automatically
- *                discarded and must not be used again. Passing a value of 'NULL' will have no effect and nothing will
- *                be sent.
- * @param destination: The address to send the data to.
+ * @brief Returns the size of the data buffer.
+ * @returns The size in bytes.
  */
-void net_send_data_buffer(uint8_t *buffer, net_address destination);
+uint8_t net_get_data_buffer_size();
 
 /**
- * @brief Discards a data buffer without sending it, freeing up the memory for new buffers.
- * @param buffer: The buffer to discard. This must be a buffer that was allocated with 'net_create_data_buffer()'; using
- *                a buffer from anywhere else will result in undefined behaviour. Once discarded, the buffer becomes
- *                invalid and must not be used again. Passing a value of 'NULL' will have no effect.
- * @note A buffer should only be discarded if it has NOT been sent with 'net_send_data_buffer()' since
- *       'net_send_data_buffer()' already automatically discards packets.
+ * @brief Sends a data packet, with whatever data is in the data buffer, to the given destination.
+ * @param destination: The logical address to send the packet to.
+ * @param data_length: The number of bytes to send from the data buffer.
  */
-void net_discard_data_buffer(uint8_t *buffer);
+void net_send_data_packet(net_address destination, uint8_t data_length);
