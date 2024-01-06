@@ -1,8 +1,0 @@
-SOURCE_FILES := \
-    source/network_stack/net/tests/packet_test.c \
-    source/network_stack/net/tests/uart.c \
-    source/network_stack/dll/tests/dll.c \
-    source/network_stack/dll/tests/uart.c \
-    source/network_stack/phy/*.c \
-    source/network_stack/net/net.c \
-    source/network_stack/net/checksum.c

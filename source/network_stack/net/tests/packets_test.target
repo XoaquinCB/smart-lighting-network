@@ -1,0 +1,5 @@
+SOURCE_FILES := \
+    source/network_stack/net/tests/packets_test.c \
+    source/network_stack/net/tests/uart.c \
+    source/network_stack/net/checksum.c \
+    source/network_stack/net/packets.c

@@ -1,0 +1,4 @@
+SOURCE_FILES := \
+    source/network_stack/net/tests/routing_test.c \
+    source/network_stack/net/tests/uart.c \
+    source/network_stack/net/routing.c
