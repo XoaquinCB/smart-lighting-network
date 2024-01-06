@@ -2,8 +2,14 @@
 
 #include <stdint.h>
 
+// DLL address
+typedef uint8_t dll_address;
+
+// Address which broadcasts to all nodes
+#define DLL_BROADCAST_ADDRESS ((dll_address) 0xFF)
+
 // typedef uint8_t BYTE;
-typedef void (*dll_callback)(uint8_t sender_address, uint8_t *data, uint8_t length);
+typedef void (*dll_callback)(dll_address sender_address, uint8_t *data, uint8_t length);
 // Defines the type dll_callback, which is a pointer to a function with these parameters, that returns void
 
 typedef enum {
@@ -18,7 +24,7 @@ typedef enum {
 uint8_t *dll_create_data_buffer(uint8_t net_packet_length);
 
 // Sends data in the packet buffer to a given address (or broadcast for address 0xFF)
-dll_send_response dll_send_packet(uint8_t destination_address, uint8_t packet_length);
+dll_send_response dll_send_packet(dll_address destination_address, uint8_t packet_length);
 
 // Sets the NET layer function to be called when a frame is received
 // Pass a pointer to the function that should be called
