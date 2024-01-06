@@ -23,7 +23,7 @@ BUILD_DIR := build
 DEPENDENCY_FLAGS = -MT $@ -MMD -MP -MF $(BUILD_DIR)/$*.d
 
 # Other compiler flags:
-COMPILER_FLAGS := -Wall -Os -flto -mmcu=atmega644p -DF_CPU=12000000
+COMPILER_FLAGS := -Wall -Os -flto -g -mmcu=atmega644p -DF_CPU=12000000
 
 # Find target file:
 ALL_TARGET_FILES := $(shell find $(SOURCE_DIR) -type f -name '*.target') # list all target files in the project
@@ -35,7 +35,7 @@ endif
 
 # Generate ELF and ASM file names:
 ELF_FILE := $(TARGET_FILE:$(SOURCE_DIR)/%.target=$(BUILD_DIR)/%.elf)
-ASM_FILE := $(ELF_FILE:%.elf=%.s)
+ASM_FILE := $(ELF_FILE:%.elf=%.asm)
 
 # Include the target file, specifying the SOURCE_FILES variable:
 include $(TARGET_FILE)
@@ -66,7 +66,7 @@ $(ELF_FILE): $(OBJECT_FILES)
 	avr-gcc $(COMPILER_FLAGS) -o $@ $^
 
 $(ASM_FILE): $(ELF_FILE)
-	avr-objdump -D -m avr5 $< > $@
+	avr-objdump -D --section=.data --section=.text --source-comment -m avr5 $< > $@
 
 $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c $(BUILD_DIR)/%.d
 	@mkdir -p $(@D)
