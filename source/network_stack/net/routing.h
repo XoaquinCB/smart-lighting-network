@@ -17,7 +17,7 @@
 dll_address net_get_next_hop(net_address destination);
 
 // TODO: Comment this function
-void net_initialise(routing);
+void net_initialise_routing();
 
 /**
  * @brief Updates the routing, sending out ping requests and link state packets, and keeping track of links and routes.
